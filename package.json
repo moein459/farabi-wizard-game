@@ -13,7 +13,9 @@
     "@react-three/drei": "^9.108.3",
     "@react-three/fiber": "^8.16.8",
     "@types/three": "^0.166.0",
+    "apexcharts": "^3.50.0",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.3.1",
     "three": "^0.166.1"
   },
@@ -27,6 +29,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "^5.2.2",
+    "unocss": "^0.61.3",
     "vite": "^5.3.1"
   }
 }
