@@ -1,17 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import ReactApexChart from "react-apexcharts";
 import Chart from "react-apexcharts";
-import { SymbolData } from "../utils/fake-data";
+import { useFakeSymbolStore } from "../state/fake-symbol";
 
-function SymbolChart({ symbolData }: { symbolData: SymbolData }) {
-  const [fakeData, setFakeData] = useState<number[]>([100]);
+function SymbolChart() {
+  const fakeSymbolStore = useFakeSymbolStore();
+  const color = fakeSymbolStore.status === "POSITIVE" ? "#00FFAB" : "#FF204E";
 
-  const average =
-    fakeData.reduce((a: number, b: number) => a + b) / fakeData.length;
-
-  const color = symbolData.price > average ? "#00FFAB" : "#FF204E";
-
-  const spark1 = {
+  const spark1: ApexCharts.ApexOptions = {
     chart: {
       type: "area",
       sparkline: {
@@ -20,7 +14,6 @@ function SymbolChart({ symbolData }: { symbolData: SymbolData }) {
     },
     stroke: {
       curve: "smooth",
-      color: "00FFAB",
       width: 5,
     },
     fill: {
@@ -37,16 +30,15 @@ function SymbolChart({ symbolData }: { symbolData: SymbolData }) {
     series: [
       {
         name: "Sales",
-        data: fakeData,
+        data: fakeSymbolStore.history,
       },
     ],
     colors: [color],
     title: {
-      text: `$${symbolData.price}`,
+      text: `$${fakeSymbolStore.current.price}`,
       style: {
         fontSize: "24px",
         color,
-        cssClass: "apexcharts-yaxis-title",
       },
     },
     subtitle: {
@@ -58,18 +50,7 @@ function SymbolChart({ symbolData }: { symbolData: SymbolData }) {
     },
   };
 
-  const chartRef = useRef<ReactApexChart>();
-
-  useEffect(() => {
-    const data = [...fakeData, symbolData.price];
-    if (data.length > 50) data.shift();
-
-    setFakeData(data);
-  }, [symbolData]);
-
-  return (
-    <Chart ref={chartRef} options={spark1} series={spark1.series} type="area" />
-  );
+  return <Chart options={spark1} series={spark1.series} type="area" />;
 }
 
 export default SymbolChart;
