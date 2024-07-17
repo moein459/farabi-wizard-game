@@ -6,11 +6,16 @@ interface ButtonProps {
   type?: "orange" | "red" | "green";
   block?: boolean;
   children: ReactNode;
+  onClick?: () => any;
 }
 
-function Button({ type, block, children }: ButtonProps) {
+function Button({ type, block, onClick, children }: ButtonProps) {
   const classes = `game-button ${type} ${block ? "w-full" : ""}`;
-  return <button className={classes}>{children}</button>;
+  return (
+    <button onClick={onClick} className={classes}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;
