@@ -3,10 +3,8 @@ import { useEffect } from "react";
 import { usePlayerStore } from "../state/player";
 
 function MainCharacter() {
-  const fbx = useFBX("/Wizard_Gnome.fbx");
-  const { actions, mixer } = useAnimations(fbx.animations, fbx);
-
-  const playerStore = usePlayerStore();
+  const fbx = useFBX(import.meta.env.BASE_URL + "Wizard_Gnome.fbx");
+  const { actions } = useAnimations(fbx.animations, fbx);
 
   useEffect(() => {
     const idleAction = actions["Wizard_Gnome_Armature|idle"]!;
@@ -18,9 +16,7 @@ function MainCharacter() {
 
     idleAction.play();
 
-    usePlayerStore.subscribe((curr, prev) => {
-      // if (curr.status === prev.status) return;
-
+    usePlayerStore.subscribe((curr, _) => {
       if (curr.status === "RIGHT") {
         if (agreeAction.isRunning()) return;
 
